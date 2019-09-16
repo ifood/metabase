@@ -309,7 +309,9 @@ function getIsSplitYAxis(left, right) {
 }
 
 function getYAxisProps(props, groups, datas) {
-  const yExtents = groups.map(group => d3.extent(group[0].all(), d => d.value));
+  const yExtents = isStacked(props.settings, datas)
+    ? groups[0].map(group => d3.extent(group.all(), d => d.value))
+    : groups.map(group => d3.extent(group[0].all(), d => d.value));
   const yAxisSplit = getYAxisSplit(props, datas, yExtents);
 
   const [yLeftSplit, yRightSplit] = getYAxisSplitLeftAndRight(
